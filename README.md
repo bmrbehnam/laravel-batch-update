@@ -2,6 +2,7 @@
 # Laravel Batch Update
 
 this is a trait helper that by use this trait in models add BatchUpdate method in it.
+
 this method run multi update query in one query.
 
 
@@ -23,3 +24,6 @@ this method run multi update query in one query.
 
 
         Category::batchUpdate($data);
+
+        # Or
+        Post::batchUpdate($data);
