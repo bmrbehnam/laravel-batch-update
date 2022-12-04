@@ -53,9 +53,9 @@ trait BatchUpdateTrait
             $case = 'CASE ';
             foreach ($ids as $key => $id) {
                 $value = $data[$key][$fieldName];
-                $case .= "WHEN $this->primaryKey = $id THEN $value ";
+                $case .= "WHEN $this->primaryKey = $id THEN '$value' ";
             }
-            $case .= "ELSE `$fieldName` END";
+            $case .= "ELSE $fieldName END";
             $updateFields [] = "$fieldName = $case";
         }
         return $updateFields;
