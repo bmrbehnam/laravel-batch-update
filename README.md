@@ -25,5 +25,17 @@ this method run multi update query in one query.
 
         Category::batchUpdate($data);
 
-        # Or
+        # Or Any Model
         Post::batchUpdate($data);
+
+
+        # Use by Custom Condition Key
+
+        $data = [
+            ['slug' => 'behnam', 'level' => 1, 'name' => 'category one'],
+            ['slug' => 'nima', 'level' => 2, 'name' => 'category two'],
+            ['slug' => 'hamed', 'level' => 5, 'name' => 'category three'],
+        ];
+
+        # Update level and name field in one query
+        Category::batchUpdate($data,'slug');

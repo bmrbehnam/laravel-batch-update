@@ -6,18 +6,33 @@ use Illuminate\Support\Facades\DB;
 
 trait BatchUpdateTrait
 {
+    private string $conditionKey;
+
     /**
      * Update Multi Rows By One Query
      * @param array $data
+     * @param null $conditionKey
      * @return int
      */
-    public static function batchUpdate(array $data): int
+    public static function batchUpdate(array $data, $conditionKey = null): int
     {
-        return (new self)->runQuery($data);
+        return (new self)->runQuery($data, $conditionKey);
     }
 
-    private function runQuery($data): int
+    /**
+     * @throws \Exception
+     */
+    private function runQuery($data, $conditionKey = null): int
     {
+        if (empty($data))
+            return 0;
+
+        $this->conditionKey = $conditionKey;
+
+        if (is_null($this->conditionKey)) {
+            $this->conditionKey = $this->primaryKey;
+        }
+
         return DB::update(
             $this->makeQuery($data)
         );
@@ -26,16 +41,22 @@ trait BatchUpdateTrait
     /**
      * @param array $data
      * @return string
+     * @throws \Exception
      */
     private function makeQuery(array $data): string
     {
-        $ids = [];
+        $conditions = [];
         foreach ($data as $items) {
-            $ids [] = $items[$this->primaryKey];
-        }
-        $updateFields = $this->caseBuilder($data, $ids);
 
-        return "UPDATE {$this->getTable()} SET " . implode(",", $updateFields) . " WHERE $this->primaryKey IN(" . implode(",", $ids) . ");";
+            if (!isset($items[$this->conditionKey])) {
+                throw new \Exception('Your Condition Key Not Exist On Model Fields');
+            }
+
+            $conditions [] = "'" . $items[$this->conditionKey] . "'";
+        }
+        $updateFields = $this->caseBuilder($data, $conditions);
+
+        return "UPDATE {$this->getTable()} SET " . implode(",", $updateFields) . " WHERE $this->conditionKey IN(" . implode(",", $conditions) . ");";
     }
 
     /**
@@ -47,13 +68,13 @@ trait BatchUpdateTrait
     {
         $updateFields = [];
         foreach (last($data) as $fieldName => $fieldValue) {
-            if ($fieldName == $this->primaryKey)
+            if ($fieldName == $this->conditionKey)
                 continue;
 
             $case = 'CASE ';
             foreach ($ids as $key => $id) {
                 $value = $data[$key][$fieldName];
-                $case .= "WHEN $this->primaryKey = $id THEN '$value' ";
+                $case .= "WHEN $this->conditionKey = $id THEN '$value' ";
             }
             $case .= "ELSE $fieldName END";
             $updateFields [] = "$fieldName = $case";
