@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 
 trait BatchUpdateTrait
 {
-    private string $conditionKey;
+    private string|null $conditionKey;
 
     /**
      * Update Multi Rows By One Query
