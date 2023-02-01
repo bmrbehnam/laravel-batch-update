@@ -1,7 +1,7 @@
 
 # Laravel Batch Update
 
-this is a trait helper that by use this trait in models add BatchUpdate method in it.
+this is a helper that by use this trait in models add Batch Update method in it.
 
 this method run multi update query in one query.
 
@@ -11,7 +11,7 @@ this method run multi update query in one query.
 
 1.add this line in your model :
 
-    use BatchUpdateTrait;
+    use BatchUpdate\BatchUpdateTrait;
 
 2. Ready ! use it :
 

@@ -1,0 +1,24 @@
+{
+    "name": "bmrbehnam/laravel-batch-update",
+    "type": "library",
+    "description": "Batch update for Laravel",
+    "keywords": ["laravel", "batch-update", "bulk-update", "php"],
+    "homepage": "https://github.com/bmrbehnam/laravel-batch-update",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "behnam rasouli",
+            "email": "bmrbehnam@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "illuminate/support": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "BatchUpdate\\": "src/"
+        }
+    }
+}
+

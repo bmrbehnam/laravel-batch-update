@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits;
+namespace BatchUpdate;
 
 use Illuminate\Support\Facades\DB;
 
