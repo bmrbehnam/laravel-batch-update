@@ -9,13 +9,19 @@ this method run multi update query in one query.
 
 # How To Use It ?
 
-1.add this line in your model :
+1. Install package by composer :
+
+    composer require bmrbehnam/laravel-batch-update
+
+
+2.Add this line in your model :
 
     use BatchUpdate\BatchUpdateTrait;
 
-2. Ready ! use it :
 
-        # Example Data For Update By One Update Query
+3. Ready ! use it :
+
+        # Example data for update by one update query
         $data = [
             ['id' => 1, 'level' => 1, 'name' => 'category one'],
             ['id' => 2, 'level' => 2, 'name' => 'category two'],
@@ -23,13 +29,14 @@ this method run multi update query in one query.
         ];
 
 
+	# Batch update 
         Category::batchUpdate($data);
 
-        # Or Any Model
+        # Or any model
         Post::batchUpdate($data);
 
 
-        # Use by Custom Condition Key
+        # Use by custom condition key by default condition key is model primary key field
 
         $data = [
             ['slug' => 'behnam', 'level' => 1, 'name' => 'category one'],
